@@ -1,0 +1,6 @@
+{
+    "name": "Freeze Template",
+    "customVariables": ["constructorParams"],
+    "omitParentDirectory": true,
+    "overwriteExistingFiles": "always"
+}

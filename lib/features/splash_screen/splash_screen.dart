@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../common/common.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,14 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkUser() async {
-    // final StorageService storageService = StorageService.instance;
-    // final UserModel? user = await storageService.getUser();
-    // if (user != null) {
-    //   globalContext?.go(RouteName.loginScreen.pathName);
-    //   return;
-    // }
-
-    // globalContext?.go(RouteName.homeScreen.pathName);
+    Timer(const Duration(seconds: 1), () {
+      globalContext?.go(RouteName.jalaMedia.pathName);
+    });
   }
 
   @override
@@ -33,11 +31,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return DefaultScaffold(
       body: Center(
         child: Text(
-          'Jala Test',
-          style: AppUtils.mediumTextStyle(
-            fontSize: 36,
-            fontColor: AppColors.blackColor,
-          ),
+          'JALA',
+          style: AppUtils.semiBoldTextStyle(
+              fontSize: 36, fontColor: AppColors.white, letterSpacing: 4),
         ),
       ),
     );

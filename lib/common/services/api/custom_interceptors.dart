@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../constants/constants.dart';
+
 class CustomInterceptors extends Interceptor {
   const CustomInterceptors();
   @override
@@ -7,11 +9,7 @@ class CustomInterceptors extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // final StorageService storageService = StorageService.instance;
-    // final UserModel? user = await storageService.getUser();
-    // if (user != null) {
-    //   options.headers['Authorization'] = 'Bearer ${user.token}';
-    // }
+    options.headers['Authorization'] = 'Bearer ${Config.authorization}';
 
     return super.onRequest(options, handler);
   }

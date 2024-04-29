@@ -1,15 +1,34 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+// To parse this JSON data, do
+//
+//     final badResponse = badResponseFromJson(jsonString);
 
-part 'bad_response.g.dart';
-part 'bad_response.freezed.dart';
+import 'dart:convert';
 
-@freezed
-class BadResponse with _$BadResponse {
-  const factory BadResponse({
-    final bool? error,
-    final String? message,
-  }) = _BadResponse;
+BadResponse badResponseFromJson(String str) =>
+    BadResponse.fromJson(json.decode(str));
 
-  factory BadResponse.fromJson(Map<String, dynamic> json) =>
-      _$BadResponseFromJson(json);
+String badResponseToJson(BadResponse data) => json.encode(data.toJson());
+
+class BadResponse {
+  BadResponse({
+    this.error,
+    this.data,
+    this.message,
+  });
+
+  final bool? error;
+  final dynamic data;
+  final String? message;
+
+  factory BadResponse.fromJson(Map<String, dynamic> json) => BadResponse(
+        error: json["error"] ?? false,
+        data: json["data"],
+        message: json["message"] ?? "",
+      );
+
+  Map<String, dynamic> toJson() => {
+        "error": error,
+        "data": data == null ? null : List<dynamic>.from(data?.map((x) => x)),
+        "message": message,
+      };
 }

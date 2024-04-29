@@ -45,8 +45,8 @@ class DefaultButton extends StatelessWidget {
         padding:
             padding ?? const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
         decoration: BoxDecoration(
-          color: backgroundColor ?? AppColors.blackColor,
-          border: Border.all(color: borderColor ?? AppColors.transparentColor),
+          color: backgroundColor ?? AppColors.primary,
+          border: Border.all(color: borderColor ?? AppColors.transparent),
           borderRadius: BorderRadius.circular(borderRadius ?? 10),
           boxShadow: boxShadow,
         ),
@@ -57,7 +57,7 @@ class DefaultButton extends StatelessWidget {
               textAlign: textAlign,
               fontSize: fontSize ?? 16,
               fontWeight: fontWeight ?? FontWeight.w700,
-              color: fontColor ?? AppColors.whiteColor,
+              color: fontColor ?? AppColors.white,
             ),
       ),
     );

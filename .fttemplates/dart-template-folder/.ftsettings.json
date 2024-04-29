@@ -1,0 +1,5 @@
+{
+    "name": "Dart Template",
+    "customVariables": ["StorageService","ApiService"],
+    "omitParentDirectory": true
+}

@@ -68,7 +68,7 @@ class DefaultImage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: DefaultCircularProgressIndicator(
                 value: progress.progress,
-                color: AppColors.blackColor,
+                color: AppColors.primary,
               ),
             ),
             errorWidget: (context, url, error) =>

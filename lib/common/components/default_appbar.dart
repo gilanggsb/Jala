@@ -15,10 +15,10 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: DefaultText(
         title ?? '',
-        color: AppColors.blackColor,
+        color: AppColors.black,
       ),
       elevation: 1,
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.primary,
       actions: actions,
     );
   }
