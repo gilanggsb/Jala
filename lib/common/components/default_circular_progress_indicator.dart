@@ -17,7 +17,7 @@ class DefaultCircularProgressIndicator extends StatelessWidget {
     this.semanticsLabel,
     this.strokeWidth = 4.0,
     this.semanticsValue,
-    this.color = AppColors.white,
+    this.color = AppColors.primary,
   });
 
   @override

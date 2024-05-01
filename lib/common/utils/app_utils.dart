@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jalatest/features/features.dart';
 
 class AppUtils {
-  static TextStyle get _baseTextStyle => GoogleFonts.ptSans();
+  static TextStyle get _baseTextStyle => GoogleFonts.lato();
 
   static TextStyle regularTextStyle(
           {double? fontSize,
@@ -17,7 +19,7 @@ class AppUtils {
         fontWeight: FontWeight.w400,
         fontStyle: fontStyle,
         color: fontColor,
-        letterSpacing: letterSpacing,
+        letterSpacing: letterSpacing ?? 0.5,
       );
 
   static TextStyle mediumTextStyle(
@@ -30,7 +32,7 @@ class AppUtils {
         fontWeight: FontWeight.w500,
         fontStyle: fontStyle,
         color: fontColor,
-        letterSpacing: letterSpacing,
+        letterSpacing: letterSpacing ?? 0.5,
       );
 
   static TextStyle semiBoldTextStyle(
@@ -43,7 +45,7 @@ class AppUtils {
         fontWeight: FontWeight.w600,
         fontStyle: fontStyle,
         color: fontColor,
-        letterSpacing: letterSpacing,
+        letterSpacing: letterSpacing ?? 0.5,
       );
 
   static TextStyle boldTextStyle(
@@ -56,7 +58,7 @@ class AppUtils {
         fontWeight: FontWeight.w700,
         fontStyle: fontStyle,
         color: fontColor,
-        letterSpacing: letterSpacing,
+        letterSpacing: letterSpacing ?? 0.5,
       );
 
   static TextStyle thinTextStyle(
@@ -68,7 +70,7 @@ class AppUtils {
         fontSize: fontSize,
         fontWeight: FontWeight.w100,
         color: fontColor,
-        letterSpacing: letterSpacing,
+        letterSpacing: letterSpacing ?? 0.5,
         fontStyle: fontStyle,
       );
 
@@ -93,5 +95,23 @@ class AppUtils {
       name += "_ERROR";
     }
     log(isError ? '' : text, name: name, error: isError ? text : '');
+  }
+
+  static void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: DefaultText(
+          message,
+          color: AppColors.white,
+        ),
+      ),
+    );
+  }
+
+  static void copyLink(
+      BuildContext context, String data, String successMessage) {
+    Clipboard.setData(ClipboardData(text: data)).then((_) {
+      showSnackBar(context, successMessage);
+    });
   }
 }

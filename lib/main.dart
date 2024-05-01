@@ -1,13 +1,24 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'common/common.dart';
+import 'common/utils/bloc_observer.dart';
 
 void main() async {
-  HttpOverrides.global = MyHttpOverrides();
-  await GetStorage.init();
-  runApp(MyApp());
+  runZonedGuarded<Future<void>>(
+    () async {
+      HttpOverrides.global = MyHttpOverrides();
+      Bloc.observer = MyBlocObserver();
+      await InjectorService.create();
+      runApp(MyApp());
+    },
+    (error, stack) => AppUtils.debugPrint(
+      'RunzonedGuarded Error :$error \nStackTrace : $stack ',
+      isError: true,
+    ),
+  );
 }
 
 // ignore: must_be_immutable

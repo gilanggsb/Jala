@@ -17,13 +17,14 @@ class DefaultImage extends StatelessWidget {
   final BoxFit? fit;
   final Widget? errorWidget;
   final bool isFromNetwork;
+  final BoxDecoration? decoration;
 
   const DefaultImage({
     super.key,
     required this.imageUrl,
     required this.cacheKey,
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
     this.cacheManagerKey,
     this.staleImagePeriod,
     this.alignment,
@@ -32,6 +33,7 @@ class DefaultImage extends StatelessWidget {
     this.fit,
     this.errorWidget,
     this.isFromNetwork = true,
+    this.decoration,
   });
 
   @override
@@ -57,7 +59,20 @@ class DefaultImage extends StatelessWidget {
             alignment: alignment ?? Alignment.center,
             color: color,
             fit: fit,
-            imageBuilder: imageBuilder,
+            imageBuilder: imageBuilder ??
+                (context, imageProvider) => Container(
+                      width: width,
+                      height: height,
+                      decoration: BoxDecoration(
+                        border: decoration?.border,
+                        borderRadius: decoration?.borderRadius,
+                        shape: decoration?.shape ?? BoxShape.rectangle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
             cacheManager: CacheManager(
               Config(
                 cacheManagerKey ?? "image-cache-key",

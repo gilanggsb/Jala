@@ -2,45 +2,51 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../../features/jala_media.dart';
+import '../../features/features.dart';
 
 final GetIt getIt = GetIt.instance;
 
 class InjectorService {
   const InjectorService();
 
-  static Future<void> create() async {
+  static Future<void> create({bool isTesting = false}) async {
     const injectorService = InjectorService();
-    await injectorService.setupLocator();
+    await injectorService.setupLocator(isTesting: isTesting);
   }
 
-  Future<void> setupLocator() async {
+  Future<void> setupLocator({bool isTesting = false}) async {
     //feature
     jalaMediaInjection();
+    diseasesInjection();
     //service
-    serviceInjection();
+    serviceInjection(isTesting: isTesting);
     //module
-    moduleInjection();
+    moduleInjection(isTesting: isTesting);
   }
 
-  void serviceInjection() {
+  void serviceInjection({bool isTesting = false}) {
     getIt.registerLazySingleton<ApiService>(
       () => ApiServiceImpl(
         dio: getIt(),
+        isTesting: isTesting,
       ),
     );
-    getIt.registerLazySingleton<StorageService>(
-      () => StorageServiceImpl(getIt()),
-    );
+    if (!isTesting) {
+      getIt.registerLazySingleton<StorageService>(
+        () => StorageServiceImpl(getIt()),
+      );
+    }
     getIt.registerLazySingleton<NetworkService>(
-      () => NetworkServiceImpl(getIt()),
+      () => NetworkServiceImpl(getIt(), isTesting: isTesting),
     );
   }
 
-  void moduleInjection() {
-    getIt.registerLazySingleton<GetStorage>(
-      () => GetStorage(),
-    );
+  void moduleInjection({bool isTesting = false}) {
+    if (!isTesting) {
+      getIt.registerLazySingleton<GetStorage>(
+        () => GetStorage(),
+      );
+    }
     getIt.registerLazySingleton<Dio>(
       () => Dio(),
     );

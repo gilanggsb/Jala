@@ -12,7 +12,8 @@ Meta metaFromJson(String str) => Meta.fromJson(json.decode(str));
 
 String metaToJson(Meta data) => json.encode(data.toJson());
 
-@freezed
+@Freezed(fromJson: false)
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Meta with _$Meta {
   const factory Meta({
     int? currentPage,

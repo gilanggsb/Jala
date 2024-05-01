@@ -1,6 +1,8 @@
 enum RouteName {
-  splash('splash', '/'),
-  jalaMedia('jala media', '/jalaMedia');
+  webviewBlog('Webview Blog', '/webview-blog'),
+  diseases('Penyakit', '/penyakit'),
+  jalaMedia('Jala Media', '/jala-media'),
+  splash('Splash', '/');
 
   final String name;
   final String pathName;

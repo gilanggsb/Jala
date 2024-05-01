@@ -6,8 +6,10 @@ abstract class NetworkService {
 
 class NetworkServiceImpl extends NetworkService {
   final InternetConnectionChecker connection;
-  NetworkServiceImpl(this.connection);
+  final bool isTesting;
+  NetworkServiceImpl(this.connection, {this.isTesting = false});
 
   @override
-  Future<bool> get hasConnection async => await connection.hasConnection;
+  Future<bool> get hasConnection async =>
+      isTesting ? true : await connection.hasConnection;
 }

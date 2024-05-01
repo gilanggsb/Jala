@@ -14,37 +14,32 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) {
-  return _BaseResponse.fromJson(json);
-}
-
 /// @nodoc
-mixin _$BaseResponse {
-  List<dynamic>? get data => throw _privateConstructorUsedError;
+mixin _$BaseResponse<T> {
+  T? get data => throw _privateConstructorUsedError;
   Links? get links => throw _privateConstructorUsedError;
   Meta? get meta => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $BaseResponseCopyWith<BaseResponse> get copyWith =>
+  $BaseResponseCopyWith<T, BaseResponse<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BaseResponseCopyWith<$Res> {
+abstract class $BaseResponseCopyWith<T, $Res> {
   factory $BaseResponseCopyWith(
-          BaseResponse value, $Res Function(BaseResponse) then) =
-      _$BaseResponseCopyWithImpl<$Res, BaseResponse>;
+          BaseResponse<T> value, $Res Function(BaseResponse<T>) then) =
+      _$BaseResponseCopyWithImpl<T, $Res, BaseResponse<T>>;
   @useResult
-  $Res call({List<dynamic>? data, Links? links, Meta? meta});
+  $Res call({T? data, Links? links, Meta? meta});
 
   $LinksCopyWith<$Res>? get links;
   $MetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
-class _$BaseResponseCopyWithImpl<$Res, $Val extends BaseResponse>
-    implements $BaseResponseCopyWith<$Res> {
+class _$BaseResponseCopyWithImpl<T, $Res, $Val extends BaseResponse<T>>
+    implements $BaseResponseCopyWith<T, $Res> {
   _$BaseResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -63,7 +58,7 @@ class _$BaseResponseCopyWithImpl<$Res, $Val extends BaseResponse>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as T?,
       links: freezed == links
           ? _value.links
           : links // ignore: cast_nullable_to_non_nullable
@@ -101,14 +96,14 @@ class _$BaseResponseCopyWithImpl<$Res, $Val extends BaseResponse>
 }
 
 /// @nodoc
-abstract class _$$BaseResponseImplCopyWith<$Res>
-    implements $BaseResponseCopyWith<$Res> {
-  factory _$$BaseResponseImplCopyWith(
-          _$BaseResponseImpl value, $Res Function(_$BaseResponseImpl) then) =
-      __$$BaseResponseImplCopyWithImpl<$Res>;
+abstract class _$$BaseResponseImplCopyWith<T, $Res>
+    implements $BaseResponseCopyWith<T, $Res> {
+  factory _$$BaseResponseImplCopyWith(_$BaseResponseImpl<T> value,
+          $Res Function(_$BaseResponseImpl<T>) then) =
+      __$$BaseResponseImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({List<dynamic>? data, Links? links, Meta? meta});
+  $Res call({T? data, Links? links, Meta? meta});
 
   @override
   $LinksCopyWith<$Res>? get links;
@@ -117,11 +112,11 @@ abstract class _$$BaseResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BaseResponseImplCopyWithImpl<$Res>
-    extends _$BaseResponseCopyWithImpl<$Res, _$BaseResponseImpl>
-    implements _$$BaseResponseImplCopyWith<$Res> {
+class __$$BaseResponseImplCopyWithImpl<T, $Res>
+    extends _$BaseResponseCopyWithImpl<T, $Res, _$BaseResponseImpl<T>>
+    implements _$$BaseResponseImplCopyWith<T, $Res> {
   __$$BaseResponseImplCopyWithImpl(
-      _$BaseResponseImpl _value, $Res Function(_$BaseResponseImpl) _then)
+      _$BaseResponseImpl<T> _value, $Res Function(_$BaseResponseImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,11 +126,11 @@ class __$$BaseResponseImplCopyWithImpl<$Res>
     Object? links = freezed,
     Object? meta = freezed,
   }) {
-    return _then(_$BaseResponseImpl(
+    return _then(_$BaseResponseImpl<T>(
       data: freezed == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as T?,
       links: freezed == links
           ? _value.links
           : links // ignore: cast_nullable_to_non_nullable
@@ -149,24 +144,12 @@ class __$$BaseResponseImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$BaseResponseImpl implements _BaseResponse {
-  const _$BaseResponseImpl({final List<dynamic>? data, this.links, this.meta})
-      : _data = data;
 
-  factory _$BaseResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BaseResponseImplFromJson(json);
+class _$BaseResponseImpl<T> implements _BaseResponse<T> {
+  const _$BaseResponseImpl({this.data, this.links, this.meta});
 
-  final List<dynamic>? _data;
   @override
-  List<dynamic>? get data {
-    final value = _data;
-    if (value == null) return null;
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final T? data;
   @override
   final Links? links;
   @override
@@ -174,55 +157,45 @@ class _$BaseResponseImpl implements _BaseResponse {
 
   @override
   String toString() {
-    return 'BaseResponse(data: $data, links: $links, meta: $meta)';
+    return 'BaseResponse<$T>(data: $data, links: $links, meta: $meta)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BaseResponseImpl &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
+            other is _$BaseResponseImpl<T> &&
+            const DeepCollectionEquality().equals(other.data, data) &&
             (identical(other.links, links) || other.links == links) &&
             (identical(other.meta, meta) || other.meta == meta));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_data), links, meta);
+      runtimeType, const DeepCollectionEquality().hash(data), links, meta);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BaseResponseImplCopyWith<_$BaseResponseImpl> get copyWith =>
-      __$$BaseResponseImplCopyWithImpl<_$BaseResponseImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BaseResponseImplToJson(
-      this,
-    );
-  }
+  _$$BaseResponseImplCopyWith<T, _$BaseResponseImpl<T>> get copyWith =>
+      __$$BaseResponseImplCopyWithImpl<T, _$BaseResponseImpl<T>>(
+          this, _$identity);
 }
 
-abstract class _BaseResponse implements BaseResponse {
+abstract class _BaseResponse<T> implements BaseResponse<T> {
   const factory _BaseResponse(
-      {final List<dynamic>? data,
+      {final T? data,
       final Links? links,
-      final Meta? meta}) = _$BaseResponseImpl;
-
-  factory _BaseResponse.fromJson(Map<String, dynamic> json) =
-      _$BaseResponseImpl.fromJson;
+      final Meta? meta}) = _$BaseResponseImpl<T>;
 
   @override
-  List<dynamic>? get data;
+  T? get data;
   @override
   Links? get links;
   @override
   Meta? get meta;
   @override
   @JsonKey(ignore: true)
-  _$$BaseResponseImplCopyWith<_$BaseResponseImpl> get copyWith =>
+  _$$BaseResponseImplCopyWith<T, _$BaseResponseImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

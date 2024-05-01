@@ -127,7 +127,7 @@ class DefaultText extends StatelessWidget {
       textBaseline: textBaseline,
       background: textBackground,
       backgroundColor: backgroundColor,
-      color: color ?? AppColors.white,
+      color: color ?? AppColors.black,
       debugLabel: debugLabel,
       decoration: decoration,
       decorationColor: decorationColor,

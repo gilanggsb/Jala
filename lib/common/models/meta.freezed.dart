@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Meta _$MetaFromJson(Map<String, dynamic> json) {
-  return _Meta.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Meta {
   int? get currentPage => throw _privateConstructorUsedError;
@@ -171,7 +167,7 @@ class __$$MetaImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class _$MetaImpl implements _Meta {
   const _$MetaImpl(
       {this.currentPage,
@@ -181,9 +177,6 @@ class _$MetaImpl implements _Meta {
       this.perPage,
       this.to,
       this.total});
-
-  factory _$MetaImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MetaImplFromJson(json);
 
   @override
   final int? currentPage;
@@ -249,8 +242,6 @@ abstract class _Meta implements Meta {
       final String? perPage,
       final int? to,
       final int? total}) = _$MetaImpl;
-
-  factory _Meta.fromJson(Map<String, dynamic> json) = _$MetaImpl.fromJson;
 
   @override
   int? get currentPage;

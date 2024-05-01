@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/features.dart';
-import '../../features/jala_media.dart';
-import '../common.dart';
 import 'route_observer.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -29,6 +27,13 @@ class MyRouterDelegate {
         path: RouteName.jalaMedia.pathName,
         name: RouteName.jalaMedia.name,
         builder: (context, state) => const JalaMediaScreen(),
+      ),
+      GoRoute(
+        path: RouteName.webviewBlog.pathName,
+        name: RouteName.webviewBlog.name,
+        builder: (context, state) => WebviewBlogScreen(
+          webviewParams: state.extra as WebviewParamsScreen,
+        ),
       ),
     ],
   );

@@ -5,22 +5,19 @@ import 'package:dio/dio.dart';
 import '../../common.dart';
 
 abstract class ApiService {
-  Future<BaseResponse> get(
-    String endpoints, {
-    Map<String, dynamic> queryParams,
-  });
-  Future<BaseResponse> post(String endpoints, Map<String, dynamic> body);
-  Future<Response> getPlainResponse(
-    String endpoints, {
-    Map<String, dynamic> queryParams,
-  });
+  Future<BaseResponse<T>> get<T>(
+      String endpoints, T Function(Object?) fromJsonT,
+      {Map<String, dynamic> queryParams});
+  Future<BaseResponse<T>> post<T>(String endpoints, Map<String, dynamic> body,
+      T Function(Object?) fromJsonT);
 }
 
 class ApiServiceImpl extends ApiService {
   final Dio dio;
+  final bool isTesting;
   final NetworkService connection = getIt<NetworkService>();
 
-  ApiServiceImpl({required this.dio}) {
+  ApiServiceImpl({required this.dio, this.isTesting = false}) {
     initDIO();
   }
 
@@ -28,22 +25,26 @@ class ApiServiceImpl extends ApiService {
     dio.options.baseUrl = URL.base;
     dio.options.connectTimeout = const Duration(milliseconds: 5000);
     dio.interceptors.add(const CustomInterceptors());
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-      ),
-    );
+    if (!isTesting) {
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+        ),
+      );
+    }
     dio.interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
   }
 
-  BaseResponse parseResponse(Response response) {
+  BaseResponse<T> parseResponse<T>(
+      Response response, T Function(Object?) fromJsonT) {
     try {
-      final BaseResponse baseResponse = BaseResponse.fromJson(response.data);
-      if (baseResponse.status == 200) {
-        return baseResponse;
-      }
-      throw ServerFailure(baseResponse.msg);
+      final BaseResponse<T> baseResponse =
+          BaseResponse.fromJson(response.data, fromJsonT);
+      // if (baseResponse.status == 200) {
+      return baseResponse;
+      // }
+      // throw ServerFailure(baseResponse.msg);
     } catch (e) {
       rethrow;
     }
@@ -68,14 +69,15 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<BaseResponse> post(String endpoints, Map<String, dynamic> body) async {
+  Future<BaseResponse<T>> post<T>(String endpoints, Map<String, dynamic> body,
+      T Function(Object?) fromJsonT) async {
     try {
       if (!(await connection.hasConnection)) {
         throw const ServerFailure("check your connection");
       }
       final Response response =
           await dio.post(endpoints, data: jsonEncode(body));
-      return parseResponse(response);
+      return parseResponse(response, fromJsonT);
     } on DioException catch (e) {
       return parseError(e);
     } catch (e) {
@@ -84,8 +86,9 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<BaseResponse> get(
-    String endpoints, {
+  Future<BaseResponse<T>> get<T>(
+    String endpoints,
+    T Function(Object?) fromJsonT, {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
@@ -94,26 +97,7 @@ class ApiServiceImpl extends ApiService {
       }
       final Response response =
           await dio.get(endpoints, queryParameters: queryParams);
-      return parseResponse(response);
-    } on DioException catch (e) {
-      return parseError(e);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<Response> getPlainResponse(
-    String endpoints, {
-    Map<String, dynamic>? queryParams,
-  }) async {
-    try {
-      if (!(await connection.hasConnection)) {
-        throw const ServerFailure("check your connection");
-      }
-      final Response response =
-          await dio.get(endpoints, queryParameters: queryParams);
-      return response;
+      return parseResponse(response, fromJsonT);
     } on DioException catch (e) {
       return parseError(e);
     } catch (e) {
