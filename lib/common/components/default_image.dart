@@ -7,7 +7,8 @@ import './../utils/utils.dart';
 import 'default_circular_progress_indicator.dart';
 
 class DefaultImage extends StatelessWidget {
-  final String imageUrl, cacheKey;
+  final String imageUrl;
+  final String? cacheKey;
   final String? cacheManagerKey;
   final Duration? staleImagePeriod;
   final Alignment? alignment;
@@ -22,7 +23,7 @@ class DefaultImage extends StatelessWidget {
   const DefaultImage({
     super.key,
     required this.imageUrl,
-    required this.cacheKey,
+    this.cacheKey,
     required this.width,
     required this.height,
     this.cacheManagerKey,
@@ -75,7 +76,7 @@ class DefaultImage extends StatelessWidget {
                     ),
             cacheManager: CacheManager(
               Config(
-                cacheManagerKey ?? "image-cache-key",
+                cacheManagerKey ?? imageUrl,
                 stalePeriod: staleImagePeriod ?? const Duration(days: 1),
               ),
             ),

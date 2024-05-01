@@ -10,6 +10,7 @@ class JalaMediaScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<DiseasesBloc>()..init()),
+        BlocProvider(create: (_) => getIt<PostsBloc>()..init()),
       ],
       child: MaterialApp(
         home: DefaultTabController(
@@ -63,7 +64,7 @@ class JalaMediaScreen extends StatelessWidget {
             body: const TabBarView(
               children: [
                 Icon(Icons.directions_car),
-                Icon(Icons.directions_transit),
+                PostsScreen(),
                 DiseasesScreen()
               ],
             ),

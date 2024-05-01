@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 import '../../../features.dart';
 
 class MediaCard extends StatelessWidget {
-  final Disease disease;
   final VoidCallback? onPressShare;
   final VoidCallback? onPress;
-  const MediaCard(
-      {super.key, required this.disease, this.onPress, this.onPressShare});
+  final String? title;
+  final String? description;
+  final String? imageUrl;
+  final DateTime? createdAt;
+  const MediaCard({
+    super.key,
+    this.onPress,
+    this.onPressShare,
+    this.title,
+    this.description,
+    this.createdAt,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +34,7 @@ class MediaCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultImage(
-              imageUrl: URL.avatar(disease.image ?? ''),
-              cacheKey: disease.image ?? '',
+              imageUrl: URL.avatar(imageUrl ?? ''),
               width: double.infinity,
               height: 160,
               fit: BoxFit.cover,
@@ -40,13 +49,13 @@ class MediaCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DefaultText(
-                  '${disease.fullName} (${disease.shortName})',
+                  title ?? '',
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
                 4.heightBox,
                 DefaultText(
-                  '${disease.metaDescription}',
+                  description ?? '',
                   color: AppColors.grey,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -56,7 +65,7 @@ class MediaCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DefaultText(
-                      disease.createdAt?.format('dd MMMM yyyy'),
+                      createdAt?.format('dd MMMM yyyy') ?? '',
                       color: AppColors.grey,
                       fontSize: 12,
                     ),

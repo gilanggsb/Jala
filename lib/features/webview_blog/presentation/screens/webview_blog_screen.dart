@@ -18,14 +18,31 @@ class WebviewBlogScreen extends StatefulWidget {
 }
 
 class _WebviewBlogScreenState extends State<WebviewBlogScreen> {
-  late final WebViewController? webviewController;
+  late final WebViewController webviewController;
+  ValueNotifier<bool> valIsLoading = ValueNotifier(false);
 
   @override
   void initState() {
     webviewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {
+          valIsLoading.value = true;
+        },
+        onPageFinished: (String url) {
+          valIsLoading.value = false;
+        },
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          return NavigationDecision.navigate;
+        },
+      ))
       ..loadRequest(Uri.parse(widget.webviewParams.webviewUrl));
+
     super.initState();
   }
 
@@ -60,9 +77,21 @@ class _WebviewBlogScreenState extends State<WebviewBlogScreen> {
           )
         ],
       ),
-      body: webviewController == null
-          ? Container()
-          : WebViewWidget(controller: webviewController!),
+      body: Stack(
+        children: <Widget>[
+          WebViewWidget(
+            controller: webviewController,
+          ),
+          ValueListenableBuilder(
+            valueListenable: valIsLoading,
+            builder: (context, isLoading, child) => isLoading
+                ? const Center(
+                    child: DefaultCircularProgressIndicator(),
+                  )
+                : const Stack(),
+          )
+        ],
+      ),
     );
   }
 }

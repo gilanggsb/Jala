@@ -37,7 +37,7 @@ class DiseasesBloc extends Bloc<DiseasesEvent, DiseasesState> {
   FutureOr<void> _nextPage(event, emit) async {
     try {
       emit(DiseasesState.success(diseases, isLoading: true));
-      if (resDiseases != null && resDiseases?.meta?.total == diseases.length) {
+      if (resDiseases != null && resDiseases?.links?.next == null) {
         hasReachedEnd = true;
         emit(DiseasesState.success(diseases,
             isLoading: false, hasReachedEnd: true));

@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../common.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const DefaultAppBar(
-      {super.key,
-      this.title,
-      this.actions,
-      this.centerTitle,
-      this.bottom,
-      this.appbarSize,
-      this.leading,
-      });
+  const DefaultAppBar({
+    super.key,
+    this.title,
+    this.actions,
+    this.centerTitle,
+    this.bottom,
+    this.appbarSize,
+    this.leading,
+  });
 
   final String? title;
   final List<Widget>? actions;

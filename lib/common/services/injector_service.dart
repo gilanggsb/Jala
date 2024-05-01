@@ -16,7 +16,7 @@ class InjectorService {
 
   Future<void> setupLocator({bool isTesting = false}) async {
     //feature
-    jalaMediaInjection();
+    postsInjection();
     diseasesInjection();
     //service
     serviceInjection(isTesting: isTesting);
