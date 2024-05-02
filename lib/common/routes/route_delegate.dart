@@ -35,6 +35,20 @@ class MyRouterDelegate {
           webviewParams: state.extra as WebviewParamsScreen,
         ),
       ),
+      GoRoute(
+        path: RouteName.shrimpPrices.pathName,
+        name: RouteName.shrimpPrices.name,
+        builder: (context, state) => const ShrimpPricesScreen(),
+        routes: [
+          GoRoute(
+            path: RouteName.detailShrimpPrices.pathName,
+            name: RouteName.detailShrimpPrices.name,
+            builder: (context, state) => DetailShrimpPricesScreen(
+              detailShrimpPricesParams: state.extra as DetailShrimpPricesParams,
+            ),
+          ),
+        ],
+      ),
     ],
   );
 

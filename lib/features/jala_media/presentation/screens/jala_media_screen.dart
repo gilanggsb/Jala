@@ -11,6 +11,7 @@ class JalaMediaScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<DiseasesBloc>()..init()),
         BlocProvider(create: (_) => getIt<PostsBloc>()..init()),
+        BlocProvider(create: (_) => getIt<ShrimpPricesBloc>()..init()),
       ],
       child: MaterialApp(
         home: DefaultTabController(
@@ -62,10 +63,11 @@ class JalaMediaScreen extends StatelessWidget {
               ),
             ),
             body: const TabBarView(
+              physics: NeverScrollableScrollPhysics(),
               children: [
-                Icon(Icons.directions_car),
+                ShrimpPricesScreen(),
                 PostsScreen(),
-                DiseasesScreen()
+                DiseasesScreen(),
               ],
             ),
           ),

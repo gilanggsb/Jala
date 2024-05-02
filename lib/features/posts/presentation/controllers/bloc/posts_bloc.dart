@@ -14,6 +14,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   late BaseResponse<List<Post>>? resPosts;
   List<Post> posts = [];
   bool hasReachedEnd = false;
+  bool isLoading = false;
   PostRequest postsRequest =
       const PostRequest(page: 1, perPage: 2, postRequestWith: 'creator');
 
@@ -33,6 +34,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
 
   FutureOr<void> _nextPage(event, emit) async {
     try {
+      isLoading = true;
       emit(PostsState.success(posts, isLoading: true));
       if (resPosts != null && resPosts?.links?.next == null) {
         hasReachedEnd = true;
@@ -48,6 +50,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       _emitFailed(emit, e.message);
     } catch (e) {
       _emitFailed(emit, e.toString());
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -65,6 +69,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   }
 
   void _emitFailed(Emitter<PostsState> emit, String message) {
-    emit(PostsState.failed(message));
+    emit(PostsState.failed(message, posts: posts));
   }
 }

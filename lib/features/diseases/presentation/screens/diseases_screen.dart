@@ -19,13 +19,19 @@ class _DiseasesScreenState extends State<DiseasesScreen> {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent) {
         final diseasesBloc = context.read<DiseasesBloc>();
-        if (diseasesBloc.hasReachedEnd) {
+        if (diseasesBloc.hasReachedEnd || diseasesBloc.isLoading) {
           return;
         }
         diseasesBloc.add(const DiseasesEvent.nextPage());
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,6 +60,11 @@ class _DiseasesScreenState extends State<DiseasesScreen> {
                       if (hasReachedEnd != null && hasReachedEnd) {
                         AppUtils.showSnackBar(
                             context, 'Berhasil memuat semua data');
+                      }
+                    },
+                    failed: (message, shrimpPrices) {
+                      if (!shrimpPrices.isNull) {
+                        AppUtils.showSnackBar(context, message);
                       }
                     },
                   );
@@ -103,9 +114,52 @@ class _DiseasesScreenState extends State<DiseasesScreen> {
                         },
                       );
                     },
-                    failed: (text) => const Center(
-                      child: DefaultText('Gagal mengambil data'),
-                    ),
+                    failed: (text, data) {
+                      if (data != null) {
+                        return ListView.separated(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          separatorBuilder: (context, index) => 12.heightBox,
+                          itemBuilder: (context, index) {
+                            if (index < data.length) {
+                              final Disease disease = data[index];
+                              return MediaCard(
+                                imageUrl: disease.image,
+                                description: disease.metaDescription,
+                                title:
+                                    '${disease.fullName} (${disease.shortName})',
+                                createdAt: disease.createdAt,
+                                onPress: () {
+                                  context.pushNamed(
+                                    RouteName.webviewBlog.name,
+                                    extra: WebviewParamsScreen(
+                                      webviewUrl:
+                                          URL.webviewDisease(disease.id ?? 0),
+                                      title: 'Info Penyakit',
+                                    ),
+                                  );
+                                },
+                                onPressShare: () {
+                                  AppUtils.copyLink(
+                                    context,
+                                    URL.shareDisease(disease.id ?? 0),
+                                    'Tautan berhasil di salin',
+                                  );
+                                },
+                              );
+                            }
+
+                            return const Center(
+                              child: DefaultCircularProgressIndicator(),
+                            ).paddingOnly(top: 12);
+                          },
+                        );
+                      }
+                      return const Center(
+                        child: DefaultText('Gagal memuat data'),
+                      );
+                    },
                     initial: () => const SizedBox(),
                     loading: () => const Center(
                       child: DefaultCircularProgressIndicator(),

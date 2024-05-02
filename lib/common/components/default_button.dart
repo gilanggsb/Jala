@@ -9,6 +9,7 @@ class DefaultButton extends StatelessWidget {
     this.text,
     this.padding,
     this.width,
+    this.height,
     this.margin,
     this.textAlign,
     this.backgroundColor,
@@ -19,12 +20,13 @@ class DefaultButton extends StatelessWidget {
     this.fontWeight,
     this.child,
     this.boxShadow,
+    this.boxDecoration,
   });
   final Function() onPress;
   final String? text;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
-  final double? width;
+  final double? width, height;
   final TextAlign? textAlign;
   final Color? backgroundColor;
   final double? borderRadius;
@@ -34,6 +36,7 @@ class DefaultButton extends StatelessWidget {
   final FontWeight? fontWeight;
   final Widget? child;
   final List<BoxShadow>? boxShadow;
+  final BoxDecoration? boxDecoration;
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +45,16 @@ class DefaultButton extends StatelessWidget {
       child: Container(
         margin: margin,
         width: width,
+        height: height,
         padding:
             padding ?? const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
-        decoration: BoxDecoration(
-          color: backgroundColor ?? AppColors.primary,
-          border: Border.all(color: borderColor ?? AppColors.transparent),
-          borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          boxShadow: boxShadow,
-        ),
+        decoration: boxDecoration ??
+            BoxDecoration(
+              color: backgroundColor ?? AppColors.primary,
+              border: Border.all(color: borderColor ?? AppColors.transparent),
+              borderRadius: BorderRadius.circular(borderRadius ?? 10),
+              boxShadow: boxShadow,
+            ),
         child: child ??
             DefaultText(
               text ?? "",

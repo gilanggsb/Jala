@@ -14,6 +14,7 @@ class AppColors extends BlackColors {
   static const Color transparent = Colors.transparent;
   static const Color grey = Color(0xFF737373);
   static const Color grey200 = Color(0xFFE5E5E5);
+  static const Color grey300 = Color(0xFFA09E9E);
 }
 
 class BlackColors {

@@ -19,7 +19,7 @@ class PostsRemoteDataSourceImpl extends PostsRemoteDataSource {
     } on Failure catch (e) {
       throw e.message;
     } catch (e) {
-      throw 'Something went wrong went getPosts';
+      throw 'getPosts error : Something wrong $e';
     }
   }
 

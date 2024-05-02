@@ -15,7 +15,7 @@ class BaseResponse<T> with _$BaseResponse<T> {
   }) = _BaseResponse<T>;
 
   factory BaseResponse.fromJson(
-      Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
+      Map<String, dynamic> json, T Function(dynamic json) fromJsonT) {
     return _$BaseResponseFromJson<T>(json, fromJsonT);
   }
 }

@@ -6,5 +6,6 @@ class DiseasesState with _$DiseasesState {
   const factory DiseasesState.loading() = _Loading;
   const factory DiseasesState.success(List<Disease> diseases,
       {bool? isLoading, bool? hasReachedEnd}) = _Success;
-  const factory DiseasesState.failed(String message) = _Error;
+  const factory DiseasesState.failed(String message,
+      {List<Disease>? diseases}) = _Error;
 }

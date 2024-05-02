@@ -16,6 +16,8 @@ class InjectorService {
 
   Future<void> setupLocator({bool isTesting = false}) async {
     //feature
+    detailShrimpPricesInjection();
+    shrimpPricesInjection();
     postsInjection();
     diseasesInjection();
     //service

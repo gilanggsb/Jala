@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jalatest/features/features.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
   static TextStyle get _baseTextStyle => GoogleFonts.lato();
@@ -84,7 +85,7 @@ class AppUtils {
     bool isError = false,
     bool isApi = false,
   }) {
-    String name = "ENSLOG";
+    String name = "JALALOG";
     if (kReleaseMode) return;
 
     if (isApi) {
@@ -113,5 +114,30 @@ class AppUtils {
     Clipboard.setData(ClipboardData(text: data)).then((_) {
       showSnackBar(context, successMessage);
     });
+  }
+
+  static String addCurrencyFormat(String input) {
+    // Add 'IDR' currency symbol
+    String result = 'IDR ';
+
+    // Convert input string to integer
+    int value = int.tryParse(input) ?? 0;
+
+    // Add comma separators for thousands
+    result += value.toString().replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match match) => '${match[1]},',
+        );
+
+    return result;
+  }
+
+  static Future<void> openTelephone(String phoneNumber) async {
+    final Uri telephoneUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(telephoneUri)) {
+      await launchUrl(telephoneUri);
+    } else {
+      throw 'Could not launch $telephoneUri';
+    }
   }
 }

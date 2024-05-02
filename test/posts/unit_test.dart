@@ -22,7 +22,7 @@ void main() {
     repository = MockPostsRepository();
   });
 
-  test('Should return list diseases with 1 length', () async {
+  test('Should return list posts with 1 length', () async {
     // arrange
     const postsRequest = PostRequest(page: 1, perPage: 1);
     when(repository.getPosts(postsRequest)).thenAnswer((realInvocation) async =>

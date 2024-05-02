@@ -14,6 +14,7 @@ class DiseasesBloc extends Bloc<DiseasesEvent, DiseasesState> {
   late BaseResponse<List<Disease>>? resDiseases;
   List<Disease> diseases = [];
   bool hasReachedEnd = false;
+  bool isLoading = false;
   DiseasesRequest diseasesRequest = const DiseasesRequest(page: 1, perPage: 2);
 
   DiseasesBloc({required this.repository}) : super(const _Initial()) {
@@ -36,6 +37,7 @@ class DiseasesBloc extends Bloc<DiseasesEvent, DiseasesState> {
 
   FutureOr<void> _nextPage(event, emit) async {
     try {
+      isLoading = true;
       emit(DiseasesState.success(diseases, isLoading: true));
       if (resDiseases != null && resDiseases?.links?.next == null) {
         hasReachedEnd = true;
@@ -53,6 +55,8 @@ class DiseasesBloc extends Bloc<DiseasesEvent, DiseasesState> {
       _emitFailed(emit, e.message);
     } catch (e) {
       _emitFailed(emit, e.toString());
+    } finally {
+      isLoading = false;
     }
   }
 
@@ -70,6 +74,6 @@ class DiseasesBloc extends Bloc<DiseasesEvent, DiseasesState> {
   }
 
   void _emitFailed(Emitter<DiseasesState> emit, String message) {
-    emit(DiseasesState.failed(message));
+    emit(DiseasesState.failed(message, diseases: diseases));
   }
 }

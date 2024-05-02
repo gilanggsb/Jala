@@ -551,7 +551,7 @@ mixin _$DiseasesState {
     required TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Disease>? diseases) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -561,7 +561,7 @@ mixin _$DiseasesState {
     TResult? Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Disease>? diseases)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -571,7 +571,7 @@ mixin _$DiseasesState {
     TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Disease>? diseases)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -663,7 +663,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Disease>? diseases) failed,
   }) {
     return initial();
   }
@@ -676,7 +676,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Disease>? diseases)? failed,
   }) {
     return initial?.call();
   }
@@ -689,7 +689,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Disease>? diseases)? failed,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -783,7 +783,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Disease>? diseases) failed,
   }) {
     return loading();
   }
@@ -796,7 +796,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Disease>? diseases)? failed,
   }) {
     return loading?.call();
   }
@@ -809,7 +809,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Disease>? diseases)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -956,7 +956,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Disease>? diseases) failed,
   }) {
     return success(diseases, isLoading, hasReachedEnd);
   }
@@ -969,7 +969,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Disease>? diseases)? failed,
   }) {
     return success?.call(diseases, isLoading, hasReachedEnd);
   }
@@ -982,7 +982,7 @@ class _$SuccessImpl implements _Success {
     TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Disease>? diseases)? failed,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -1047,7 +1047,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({String message, List<Disease>? diseases});
 }
 
 /// @nodoc
@@ -1062,12 +1062,17 @@ class __$$ErrorImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
+    Object? diseases = freezed,
   }) {
     return _then(_$ErrorImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      diseases: freezed == diseases
+          ? _value._diseases
+          : diseases // ignore: cast_nullable_to_non_nullable
+              as List<Disease>?,
     ));
   }
 }
@@ -1075,14 +1080,24 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.message);
+  const _$ErrorImpl(this.message, {final List<Disease>? diseases})
+      : _diseases = diseases;
 
   @override
   final String message;
+  final List<Disease>? _diseases;
+  @override
+  List<Disease>? get diseases {
+    final value = _diseases;
+    if (value == null) return null;
+    if (_diseases is EqualUnmodifiableListView) return _diseases;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'DiseasesState.failed(message: $message)';
+    return 'DiseasesState.failed(message: $message, diseases: $diseases)';
   }
 
   @override
@@ -1090,11 +1105,13 @@ class _$ErrorImpl implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other._diseases, _diseases));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(
+      runtimeType, message, const DeepCollectionEquality().hash(_diseases));
 
   @JsonKey(ignore: true)
   @override
@@ -1110,9 +1127,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Disease>? diseases) failed,
   }) {
-    return failed(message);
+    return failed(message, diseases);
   }
 
   @override
@@ -1123,9 +1140,9 @@ class _$ErrorImpl implements _Error {
     TResult? Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Disease>? diseases)? failed,
   }) {
-    return failed?.call(message);
+    return failed?.call(message, diseases);
   }
 
   @override
@@ -1136,11 +1153,11 @@ class _$ErrorImpl implements _Error {
     TResult Function(
             List<Disease> diseases, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Disease>? diseases)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
-      return failed(message);
+      return failed(message, diseases);
     }
     return orElse();
   }
@@ -1184,9 +1201,11 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements DiseasesState {
-  const factory _Error(final String message) = _$ErrorImpl;
+  const factory _Error(final String message, {final List<Disease>? diseases}) =
+      _$ErrorImpl;
 
   String get message;
+  List<Disease>? get diseases;
   @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

@@ -551,7 +551,7 @@ mixin _$PostsState {
     required TResult Function(
             List<Post> posts, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Post>? posts) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -560,7 +560,7 @@ mixin _$PostsState {
     TResult? Function()? loading,
     TResult? Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Post>? posts)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -569,7 +569,7 @@ mixin _$PostsState {
     TResult Function()? loading,
     TResult Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Post>? posts)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -661,7 +661,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(
             List<Post> posts, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Post>? posts) failed,
   }) {
     return initial();
   }
@@ -673,7 +673,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Post>? posts)? failed,
   }) {
     return initial?.call();
   }
@@ -685,7 +685,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Post>? posts)? failed,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -779,7 +779,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(
             List<Post> posts, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Post>? posts) failed,
   }) {
     return loading();
   }
@@ -791,7 +791,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Post>? posts)? failed,
   }) {
     return loading?.call();
   }
@@ -803,7 +803,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Post>? posts)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -950,7 +950,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function(
             List<Post> posts, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Post>? posts) failed,
   }) {
     return success(posts, isLoading, hasReachedEnd);
   }
@@ -962,7 +962,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? loading,
     TResult? Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Post>? posts)? failed,
   }) {
     return success?.call(posts, isLoading, hasReachedEnd);
   }
@@ -974,7 +974,7 @@ class _$SuccessImpl implements _Success {
     TResult Function()? loading,
     TResult Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Post>? posts)? failed,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -1039,7 +1039,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({String message, List<Post>? posts});
 }
 
 /// @nodoc
@@ -1054,12 +1054,17 @@ class __$$ErrorImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
+    Object? posts = freezed,
   }) {
     return _then(_$ErrorImpl(
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      posts: freezed == posts
+          ? _value._posts
+          : posts // ignore: cast_nullable_to_non_nullable
+              as List<Post>?,
     ));
   }
 }
@@ -1067,14 +1072,23 @@ class __$$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl(this.message);
+  const _$ErrorImpl(this.message, {final List<Post>? posts}) : _posts = posts;
 
   @override
   final String message;
+  final List<Post>? _posts;
+  @override
+  List<Post>? get posts {
+    final value = _posts;
+    if (value == null) return null;
+    if (_posts is EqualUnmodifiableListView) return _posts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'PostsState.failed(message: $message)';
+    return 'PostsState.failed(message: $message, posts: $posts)';
   }
 
   @override
@@ -1082,11 +1096,13 @@ class _$ErrorImpl implements _Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other._posts, _posts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(
+      runtimeType, message, const DeepCollectionEquality().hash(_posts));
 
   @JsonKey(ignore: true)
   @override
@@ -1102,9 +1118,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function(
             List<Post> posts, bool? isLoading, bool? hasReachedEnd)
         success,
-    required TResult Function(String message) failed,
+    required TResult Function(String message, List<Post>? posts) failed,
   }) {
-    return failed(message);
+    return failed(message, posts);
   }
 
   @override
@@ -1114,9 +1130,9 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? loading,
     TResult? Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult? Function(String message)? failed,
+    TResult? Function(String message, List<Post>? posts)? failed,
   }) {
-    return failed?.call(message);
+    return failed?.call(message, posts);
   }
 
   @override
@@ -1126,11 +1142,11 @@ class _$ErrorImpl implements _Error {
     TResult Function()? loading,
     TResult Function(List<Post> posts, bool? isLoading, bool? hasReachedEnd)?
         success,
-    TResult Function(String message)? failed,
+    TResult Function(String message, List<Post>? posts)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
-      return failed(message);
+      return failed(message, posts);
     }
     return orElse();
   }
@@ -1174,9 +1190,11 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements PostsState {
-  const factory _Error(final String message) = _$ErrorImpl;
+  const factory _Error(final String message, {final List<Post>? posts}) =
+      _$ErrorImpl;
 
   String get message;
+  List<Post>? get posts;
   @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

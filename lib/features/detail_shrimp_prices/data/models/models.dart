@@ -1,0 +1,1 @@
+export 'detail_shrimp_prices_params/detail_shrimp_prices_params.dart';
